@@ -1,59 +1,41 @@
+import Link from "next/link";
+import { products } from "@/data/products";
+import ProductCard from "@/components/ProductCard";
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
-    // Thẻ div bọc ngoài cùng, chiếm toàn màn hình, màu nền xám nhạt, canh giữa nội dung
-    <main className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <main className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+          <h1 className="text-xl font-bold tracking-tight">TechStore</h1>
+          <nav className="flex items-center gap-3">
+            <Link href="/login" data-testid="btn-login">
+              <Button variant="outline">Login</Button>
+            </Link>
+            <Link href="/register" data-testid="btn-register">
+              <Button>Register</Button>
+            </Link>
+          </nav>
+        </div>
+      </header>
 
-      {/* Khung chứa form đăng nhập */}
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+      {/* Product Listing */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <h2 className="mb-6 text-2xl font-bold tracking-tight">
+          Featured Products
+        </h2>
 
-        {/* Tiêu đề */}
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Đăng nhập
-        </h1>
-
-        <form className="space-y-4">
-          {/* Trường nhập Email / Username */}
-          <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Email hoặc Tên đăng nhập
-            </label>
-            <input
-              type="text"
-              id="username"
-              placeholder="Nhập email của bạn"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Trường nhập Mật khẩu */}
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Mật khẩu
-            </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Nhập mật khẩu"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Nút Đăng nhập */}
-          <button
-            type="button" // Type là button để không reload trang (vì lab không yêu cầu logic)
-            className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 mt-4"
-          >
-            Đăng nhập
-          </button>
-        </form>
-
-      </div>
+        <div
+          data-testid="product-list"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
