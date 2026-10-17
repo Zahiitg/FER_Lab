@@ -1,7 +1,12 @@
-﻿"use client";
+"use client";
 
 import { AuthProvider } from "@/contexts/AuthContext";
+import { FavoritesProvider } from "@/contexts/FavoritesContext";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return (
+    <AuthProvider>
+      <FavoritesProvider>{children}</FavoritesProvider>
+    </AuthProvider>
+  );
 }

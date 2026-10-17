@@ -1,9 +1,10 @@
-export interface Product {
+﻿export interface Product {
   id: number;
   name: string;
   image: string;
   description: string;
   price: number;
+  category: string;
 }
 
 export const products: Product[] = [
@@ -14,6 +15,7 @@ export const products: Product[] = [
     description:
       "Premium over-ear headphones with active noise cancellation, 30-hour battery life, and crystal-clear sound quality.",
     price: 89.99,
+    category: "Audio",
   },
   {
     id: 2,
@@ -22,6 +24,7 @@ export const products: Product[] = [
     description:
       "Track your steps, heart rate, and workouts with this sleek smartwatch featuring a vibrant AMOLED display.",
     price: 199.99,
+    category: "Wearables",
   },
   {
     id: 3,
@@ -30,6 +33,7 @@ export const products: Product[] = [
     description:
       "Responsive mechanical switches with customizable RGB lighting, durable build, and full anti-ghosting support.",
     price: 129.99,
+    category: "Accessories",
   },
   {
     id: 4,
@@ -38,6 +42,7 @@ export const products: Product[] = [
     description:
       "Designed for all-day comfort with a contoured shape, silent clicks, and a high-precision optical sensor.",
     price: 49.99,
+    category: "Accessories",
   },
   {
     id: 5,
@@ -46,6 +51,7 @@ export const products: Product[] = [
     description:
       "Waterproof portable speaker with 360-degree sound, deep bass, and up to 12 hours of playtime on a single charge.",
     price: 59.99,
+    category: "Audio",
   },
   {
     id: 6,
@@ -54,5 +60,14 @@ export const products: Product[] = [
     description:
       "Expand your connectivity with this 7-in-1 hub featuring HDMI, USB 3.0, SD card reader, and 100W PD charging.",
     price: 39.99,
+    category: "Accessories",
   },
 ];
+
+export function getProduct(id: string): Product | undefined {
+  if (!/^\d+$/.test(id)) {
+    return undefined;
+  }
+  const numericId = parseInt(id, 10);
+  return products.find((p) => p.id === numericId);
+}
