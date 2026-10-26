@@ -4,9 +4,13 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import FavoriteButton from "@/components/FavoriteButton";
 import { buttonVariants } from "@/components/ui/button";
+import { getReviews, type Review } from "@/lib/reviews";
+import { ReviewsProvider } from "@/contexts/ReviewsContext";
+import ReviewsSection from "@/components/reviews/ReviewsSection";
 import type { Metadata } from "next";
 
 export const dynamicParams = true;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   return products.map((p) => ({
@@ -44,6 +48,14 @@ export default async function ProductDetailPage({
 
   if (!product) {
     notFound();
+  }
+
+  let initialReviews: Review[] = [];
+  try {
+    const res = await getReviews(product.id);
+    initialReviews = res.reviews;
+  } catch (e) {
+    console.error("Failed to load initial reviews:", e);
   }
 
   return (
@@ -115,6 +127,14 @@ export default async function ProductDetailPage({
             </div>
           </div>
         </div>
+
+        {/* Reviews Section wrapped with ReviewsProvider */}
+        <ReviewsProvider
+          productId={product.id}
+          initialReviews={initialReviews}
+        >
+          <ReviewsSection productId={product.id} />
+        </ReviewsProvider>
       </div>
     </main>
   );
